@@ -37,7 +37,7 @@
             (t
              (input-check char-state key-state))))))
 
-(defun on-draw (renderer player-state base-window frames)
+(defun on-draw (renderer player-state msg-window frames tick-per-frame)
   (sdl2:set-render-draw-color renderer 0 0 0 255)
   (sdl2:render-clear renderer)
 
@@ -50,6 +50,6 @@
   (draw-character player-state)
   
   (when *event-mode*
-    (draw-message-window base-window renderer frames "アイテムがあるよ"))
+    (msg-view msg-window renderer frames tick-per-frame :1st "アイテムがあるよ"))
 
   (sdl2:render-present renderer))

@@ -14,9 +14,6 @@
 
 (defparameter *font* nil)
 
-(defparameter *akane-pic* nil)
-(defparameter *aoi-pic*   nil)
-
 (defparameter *game-mode*  0)
 (defparameter *event-mode* nil)
 
@@ -59,9 +56,16 @@
            (frames            1)
            (current-key-state (make-instance 'key-state))
            (player-state      (make-instance 'character-mixin))
-           (base-window       (make-instance 'mwindow-mixin)))
+           (msg-window        nil))
 
       (load-resources renderer)
+
+      (setf msg-window (make-instance 'class-msgwin
+                                      :syswin-tex *base-window*
+                                      :pause-tex  *text-pause*
+                                      :pause-clip (sdl2:make-rect 0 0 30 16)
+                                      :font       *font*))
+      
       (timer-start fps-timer)
 
       (setf (aref *living-room-event* 5 10) 1)
@@ -76,7 +80,7 @@
         (:idle ()
                (timer-start cap-timer)
 
-               (on-draw  renderer player-state base-window frames)
+               (on-draw  renderer player-state msg-window frames tick-per-frame)
                (on-event player-state current-key-state)
 
                (let ((time (timer-get-ticks cap-timer)))

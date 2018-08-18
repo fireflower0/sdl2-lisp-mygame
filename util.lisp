@@ -1,10 +1,3 @@
-(defun game-delay (frame-limit)
-  (let ((ticks (sdl2:get-ticks)))
-    (unless (< frame-limit ticks)
-      (if (> frame-limit (+ ticks 16))
-          (sdl2:delay 16)
-          (sdl2:delay (- frame-limit ticks))))))
-
 (defmacro frame-incf (frame)
   `(if (= ,frame most-positive-fixnum)
        (setf ,frame 1)
